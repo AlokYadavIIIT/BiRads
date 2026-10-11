@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: rp5-birads-rag
+Version: 1.0.0
+Summary: BI-RADS-grounded retrieval augmented radiology drafting research prototype
+Requires-Python: >=3.10
+Requires-Dist: numpy<3,>=1.26
+Requires-Dist: sentence-transformers>=2.2
+Requires-Dist: faiss-cpu>=1.7
+Requires-Dist: pydantic>=2.6
+Requires-Dist: fastapi>=0.110
+Requires-Dist: uvicorn[standard]>=0.29
+Requires-Dist: textstat>=0.7

@@ -1,0 +1,6 @@
+RECOMMENDATION
+This demonstration guidance is intentionally synthetic and is not a clinical guideline. It exists only to exercise retrieval and guard logic in a software smoke test.
+Additional imaging evaluation can be represented for incomplete assessments. Short-interval follow-up can be represented for probably benign assessments. Biopsy language can be represented for suspicious assessments.
+
+Routine screening can be represented for negative or benign assessments. Biopsy language can be represented for suspicious assessments and is not a substitute for clinical judgment.
+For BI-RADS category 4, biopsy should be considered. For BI-RADS category 5, biopsy is strongly advised. BI-RADS categories 1 and 2 use routine screening, and category 3 uses short-interval follow-up.

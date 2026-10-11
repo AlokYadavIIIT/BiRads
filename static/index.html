@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RP5 | BI-RADS Grounded RAG</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <div class="eyebrow">RP5 · RESEARCH PROTOTYPE</div>
+    <h1>BI-RADS Grounded RAG Assistant</h1>
+    <p>Clinician draft + patient explanation + evidence trace + abstention guard</p>
+  </div>
+  <div id="status" class="status">Checking backend…</div>
+</header>
+
+<main class="shell">
+  <section class="panel">
+    <div class="panel-title">Finding Card</div>
+    <div class="grid two">
+      <label>Case ID<input id="case_id" value="CASE-001"></label>
+      <label>Modality<select id="modality"><option>MG</option><option>US</option><option>MRI</option></select></label>
+      <label>Laterality<select id="laterality"><option>left</option><option>right</option><option>bilateral</option></select></label>
+      <label>Breast density<input id="density" placeholder="e.g. B"></label>
+    </div>
+    <div class="lesion-card">
+      <div class="lesion-head"><span>Lesion 1</span><button id="addDesc" type="button">+ descriptor</button></div>
+      <div class="grid three">
+        <label>Kind<input id="kind" value="mass"></label>
+        <label>Location<input id="location" value="upper outer quadrant"></label>
+        <label>Size (mm)<input id="size" type="number" step="0.1" value="12"></label>
+      </div>
+      <div id="descriptors" class="chips">
+        <input class="desc" value="circumscribed">
+      </div>
+    </div>
+    <div class="grid two">
+      <label>Pathology annotation (optional)<input id="pathology" placeholder="leave blank for normal evaluation"></label>
+      <label>Reason for exam<input id="reason" value="screening"></label>
+    </div>
+    <p class="hint">Reference BI-RADS is intentionally not entered in the main workflow. Evaluation labels belong in the test dataset, not the model prompt.</p>
+    <button id="run" class="primary">Generate grounded draft</button>
+  </section>
+
+  <section id="result" class="panel hidden"></section>
+</main>
+<script src="/static/app.js"></script>
+</body>
+</html>

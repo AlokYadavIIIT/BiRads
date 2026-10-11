@@ -1,0 +1,14 @@
+MASS
+A three-dimensional space-occupying lesion. Example descriptor terms in this demo include circumscribed, indistinct, microlobulated, obscured, and spiculated.
+
+CALCIFICATION
+A focal deposit of calcium seen on breast imaging. Demo descriptor terms include coarse, punctate, and amorphous.
+
+ASSESSMENT CATEGORIES
+BI-RADS category 0 means incomplete and additional imaging evaluation is needed.
+BI-RADS category 1 means negative.
+BI-RADS category 2 means benign.
+BI-RADS category 3 means probably benign.
+BI-RADS category 4 means suspicious.
+BI-RADS category 5 means highly suggestive of malignancy.
+BI-RADS category 6 means known biopsy-proven malignancy.

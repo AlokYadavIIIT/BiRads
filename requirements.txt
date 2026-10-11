@@ -1,0 +1,17 @@
+# Core research/runtime
+numpy>=1.26,<3
+sentence-transformers>=2.2
+faiss-cpu>=1.7
+pydantic>=2.6
+fastapi>=0.110
+uvicorn[standard]>=0.29
+textstat>=0.7
+
+# Optional local LLM backend
+llama-cpp-python>=0.2.60
+
+# Optional NLI and evaluation extensions
+transformers>=4.38
+sacrebleu>=2.3
+rouge-score>=0.1
+pytest>=8.0

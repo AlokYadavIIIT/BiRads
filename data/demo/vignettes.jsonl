@@ -1,0 +1,3 @@
+{"case_id":"DEMO-001","modality":"MG","laterality":"left","breast_density":"B","lesions":[{"kind":"mass","location":"upper outer quadrant","descriptors":["circumscribed"],"size_mm":12}],"birads":2,"pathology":"benign","reason_for_exam":"screening"}
+{"case_id":"DEMO-002","modality":"MG","laterality":"right","breast_density":"C","lesions":[{"kind":"mass","location":"central breast","descriptors":["spiculated"],"size_mm":15}],"birads":5,"pathology":null,"reason_for_exam":"screening"}
+{"case_id":"DEMO-003","modality":"MG","laterality":"left","breast_density":"C","lesions":[{"kind":"mass","location":"lower inner quadrant","descriptors":["hyperlucent spiculated galactocele"],"size_mm":9}],"birads":null,"pathology":null,"reason_for_exam":"screening"}

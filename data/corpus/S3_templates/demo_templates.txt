@@ -1,0 +1,8 @@
+FINDINGS
+View: {view}. Breast density: {breast_density}. Describe each lesion by kind, location, size when known, and supported descriptors.
+
+ASSESSMENT
+Final assessment: BI-RADS {category}.
+
+RECOMMENDATION
+State only the recommendation supported by the retrieved guidance.

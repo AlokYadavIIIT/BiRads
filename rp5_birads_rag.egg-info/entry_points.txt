@@ -1,0 +1,2 @@
+[console_scripts]
+rp5 = rp5.run_experiments:main
