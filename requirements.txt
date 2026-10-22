@@ -8,7 +8,7 @@ uvicorn[standard]>=0.29
 textstat>=0.7
 
 # Optional local LLM backend
-llama-cpp-python>=0.2.60
+ # llama-cpp-python>=0.2.60
 
 # Optional NLI and evaluation extensions
 transformers>=4.38

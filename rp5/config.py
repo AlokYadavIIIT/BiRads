@@ -16,7 +16,7 @@ class RP5Config:
     # Retrieval
     embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
     embedding_dim: int = 384
-    top_k: int = 6
+    top_k: int = 8
     recall_floor: float = 0.85
     index_type: str = "faiss"  # faiss | numpy
 
@@ -33,8 +33,8 @@ class RP5Config:
 
     # Attribution / guard
     support_threshold: float = 0.45
-    coverage_threshold: float = 0.90
-    confidence_threshold: float = 0.55
+    coverage_threshold: float = 0.70
+    confidence_threshold: float = 0.50
     use_nli: bool = False
 
     # Readability

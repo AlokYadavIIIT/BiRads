@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 480" width="850" height="480">
+  <defs>
+    <linearGradient id="blueBox" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="tealBox" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f766e"/>
+      <stop offset="100%" stop-color="#14b8a6"/>
+    </linearGradient>
+    <linearGradient id="purpleBox" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#581c87"/>
+      <stop offset="100%" stop-color="#7e22ce"/>
+    </linearGradient>
+    <linearGradient id="amberBox" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="greenBox" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="100%" stop-color="#22c55e"/>
+    </linearGradient>
+    <linearGradient id="redBox" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#991b1b"/>
+      <stop offset="100%" stop-color="#ef4444"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#334155"/>
+    </marker>
+  </defs>
+
+  <rect width="850" height="480" fill="#f8fafc" rx="8" stroke="#cbd5e1" stroke-width="1"/>
+
+  <!-- Title banner -->
+  <text x="425" y="30" font-family="'Times New Roman', serif" font-size="17" font-weight="bold" fill="#0f172a" text-anchor="middle">
+    RP5: BI-RADS-Grounded Retrieval-Augmented Generation Architecture
+  </text>
+
+  <!-- Stage 0: Finding Card -->
+  <g transform="translate(40, 60)" filter="url(#cardShadow)">
+    <rect width="210" height="90" rx="8" fill="url(#blueBox)"/>
+    <text x="105" y="28" font-family="'Times New Roman', serif" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Finding Card Input (JSON)</text>
+    <text x="105" y="50" font-family="'Times New Roman', serif" font-size="11" fill="#e0e7ff" text-anchor="middle">• Modality / Laterality / Density</text>
+    <text x="105" y="66" font-family="'Times New Roman', serif" font-size="11" fill="#e0e7ff" text-anchor="middle">• Lesion morphology &amp; descriptors</text>
+    <text x="105" y="80" font-family="'Times New Roman', serif" font-size="10.5" fill="#fef08a" text-anchor="middle">[Label Isolation Enforced]</text>
+  </g>
+
+  <!-- Arrow to Retrieval -->
+  <line x1="250" y1="105" x2="310" y2="105" stroke="#334155" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="280" y="95" font-family="'Times New Roman', serif" font-size="10" fill="#475569" text-anchor="middle">q serialization</text>
+
+  <!-- Stage 1: Retrieval -->
+  <g transform="translate(315, 55)" filter="url(#cardShadow)">
+    <rect width="230" height="100" rx="8" fill="url(#tealBox)"/>
+    <text x="115" y="26" font-family="'Times New Roman', serif" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Retrieval Engine</text>
+    <text x="115" y="46" font-family="'Times New Roman', serif" font-size="11" fill="#ccfbf1" text-anchor="middle">• all-MiniLM-L6-v2 (384-dim)</text>
+    <text x="115" y="62" font-family="'Times New Roman', serif" font-size="11" fill="#ccfbf1" text-anchor="middle">• FAISS L2 / Inner Product (top-k=8)</text>
+    <text x="115" y="78" font-family="'Times New Roman', serif" font-size="11" fill="#ccfbf1" text-anchor="middle">• Four-Stratum Ingestion (S1–S4)</text>
+    <text x="115" y="92" font-family="'Times New Roman', serif" font-size="10" fill="#fef08a" text-anchor="middle">• S4 Few-Shot Exemplar Selection</text>
+  </g>
+
+  <!-- Arrow to Generation -->
+  <line x1="545" y1="105" x2="605" y2="105" stroke="#334155" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="575" y="95" font-family="'Times New Roman', serif" font-size="10" fill="#475569" text-anchor="middle">Passages + Prompts</text>
+
+  <!-- Stage 2: Dual Generation Heads -->
+  <g transform="translate(610, 50)" filter="url(#cardShadow)">
+    <rect width="200" height="110" rx="8" fill="url(#purpleBox)"/>
+    <text x="100" y="24" font-family="'Times New Roman', serif" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Dual Generation Heads</text>
+    <rect x="12" y="34" width="176" height="32" rx="4" fill="#ffffff" fill-opacity="0.15"/>
+    <text x="100" y="48" font-family="'Times New Roman', serif" font-size="11.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Clinician Head</text>
+    <text x="100" y="61" font-family="'Times New Roman', serif" font-size="10" fill="#f3e8ff" text-anchor="middle">Strict JSON Structured Report</text>
+    <rect x="12" y="70" width="176" height="32" rx="4" fill="#ffffff" fill-opacity="0.15"/>
+    <text x="100" y="84" font-family="'Times New Roman', serif" font-size="11.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Patient Head</text>
+    <text x="100" y="96" font-family="'Times New Roman', serif" font-size="10" fill="#fef08a" text-anchor="middle">FK Readability Target &lt; 8.0</text>
+  </g>
+
+  <!-- Arrow down to Attribution -->
+  <path d="M 710,160 L 710,210 L 460,210" fill="none" stroke="#334155" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="600" y="202" font-family="'Times New Roman', serif" font-size="10.5" fill="#475569" text-anchor="middle">Drafts + Retrieved Chunks</text>
+
+  <!-- Stage 3: Attribution Engine -->
+  <g transform="translate(180, 225)" filter="url(#cardShadow)">
+    <rect width="270" height="110" rx="8" fill="url(#amberBox)"/>
+    <text x="135" y="26" font-family="'Times New Roman', serif" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Multi-Tier Attribution Engine</text>
+    <text x="135" y="48" font-family="'Times New Roman', serif" font-size="11" fill="#fffbeb" text-anchor="middle">• Claim Decomposition &amp; Normalization</text>
+    <text x="135" y="64" font-family="'Times New Roman', serif" font-size="11" fill="#fffbeb" text-anchor="middle">• Lexical Overlap + MiniLM Cosine (&#8805; 0.45)</text>
+    <text x="135" y="80" font-family="'Times New Roman', serif" font-size="11" fill="#fffbeb" text-anchor="middle">• Negation Conflict Verification</text>
+    <text x="135" y="96" font-family="'Times New Roman', serif" font-size="10.5" fill="#fef08a" text-anchor="middle">• Laterality &amp; Size Mismatch Rejection</text>
+  </g>
+
+  <!-- Arrow to Guard Agent -->
+  <line x1="450" y1="280" x2="520" y2="280" stroke="#334155" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="485" y="272" font-family="'Times New Roman', serif" font-size="10" fill="#475569" text-anchor="middle">Aligned Claims</text>
+
+  <!-- Stage 4: Guard Agent -->
+  <g transform="translate(525, 225)" filter="url(#cardShadow)">
+    <rect width="260" height="110" rx="8" fill="#1e293b"/>
+    <text x="130" y="26" font-family="'Times New Roman', serif" font-size="14" font-weight="bold" fill="#38bdf8" text-anchor="middle">Clinical Guard Agent</text>
+    <text x="130" y="48" font-family="'Times New Roman', serif" font-size="11" fill="#e2e8f0" text-anchor="middle">• BI-RADS Category &#8660; Recommendation</text>
+    <text x="130" y="64" font-family="'Times New Roman', serif" font-size="11" fill="#e2e8f0" text-anchor="middle">• Descriptor Allowlisting (Strata 1 &amp; 2)</text>
+    <text x="130" y="80" font-family="'Times New Roman', serif" font-size="11" fill="#e2e8f0" text-anchor="middle">• Citation Coverage Check (&#8805; 70%)</text>
+    <text x="130" y="96" font-family="'Times New Roman', serif" font-size="10.5" fill="#facc15" text-anchor="middle">• Confidence Threshold Filter (&#964; &#8805; 0.50)</text>
+  </g>
+
+  <!-- Fork: Pass vs Abstain -->
+  <path d="M 655,335 L 655,375 L 530,375 L 530,405" fill="none" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="580" y="368" font-family="'Times New Roman', serif" font-size="11" font-weight="bold" fill="#16a34a" text-anchor="middle">ALL CHECKS PASS</text>
+
+  <path d="M 655,335 L 655,375 L 750,375 L 750,405" fill="none" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="715" y="368" font-family="'Times New Roman', serif" font-size="11" font-weight="bold" fill="#dc2626" text-anchor="middle">VIOLATION DETECTED</text>
+
+  <!-- Output 1: Valid Report -->
+  <g transform="translate(430, 410)" filter="url(#cardShadow)">
+    <rect width="200" height="55" rx="6" fill="url(#greenBox)"/>
+    <text x="100" y="24" font-family="'Times New Roman', serif" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">VALID CLINICAL REPORT</text>
+    <text x="100" y="42" font-family="'Times New Roman', serif" font-size="10.5" fill="#f0fdf4" text-anchor="middle">Clinician JSON + Patient Summary</text>
+  </g>
+
+  <!-- Output 2: Safe Abstention -->
+  <g transform="translate(650, 410)" filter="url(#cardShadow)">
+    <rect width="180" height="55" rx="6" fill="url(#redBox)"/>
+    <text x="90" y="24" font-family="'Times New Roman', serif" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">SAFE ABSTENTION</text>
+    <text x="90" y="42" font-family="'Times New Roman', serif" font-size="10.5" fill="#fef2f2" text-anchor="middle">Logged with Missing Reason</text>
+  </g>
+</svg>

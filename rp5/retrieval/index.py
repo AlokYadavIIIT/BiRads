@@ -61,8 +61,18 @@ class Retriever:
         return [Passage(self.chunks[int(j)], float(scores[int(j)])) for j in idx]
 
     def metadata_retrieve(self, query: str, stratum: str, k: int | None = None) -> list[Passage]:
-        filtered = [c for c in self.chunks if c.stratum == stratum]
-        if not filtered:
+        indices = [i for i, c in enumerate(self.chunks) if c.stratum == stratum]
+        if not indices:
             return []
-        tmp = Retriever(self.cfg, embedder=self.embedder).build(filtered)
-        return tmp.retrieve(query, k or self.cfg.top_k)
+        sub_chunks = [self.chunks[i] for i in indices]
+        k_val = min(k or self.cfg.top_k, len(sub_chunks))
+        if k_val <= 0:
+            return []
+        q = self.embedder.encode([query]).astype(np.float32)
+        if self._vectors is not None and len(self._vectors) == len(self.chunks):
+            sub_vecs = self._vectors[indices]
+            scores = (sub_vecs @ q[0]).astype(float)
+            idx = np.argsort(-scores)[:k_val]
+            return [Passage(sub_chunks[int(j)], float(scores[int(j)])) for j in idx]
+        tmp = Retriever(self.cfg, embedder=self.embedder).build(sub_chunks)
+        return tmp.retrieve(query, k_val)

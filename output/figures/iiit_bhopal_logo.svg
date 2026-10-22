@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="160" height="160">
+  <defs>
+    <radialGradient id="goldGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fdfbf7"/>
+      <stop offset="100%" stop-color="#f5efe6"/>
+    </radialGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  <!-- Outer circle border -->
+  <circle cx="150" cy="150" r="140" fill="#ffffff" stroke="#1a2b49" stroke-width="6"/>
+  <circle cx="150" cy="150" r="132" fill="none" stroke="#d4af37" stroke-width="3"/>
+  <circle cx="150" cy="150" r="102" fill="none" stroke="#1a2b49" stroke-width="2.5"/>
+  
+  <!-- Outer circular text path -->
+  <path id="textCircleTop" d="M 40,150 A 110,110 0 0,1 260,150" fill="none"/>
+  <path id="textCircleBottom" d="M 260,150 A 110,110 0 0,1 40,150" fill="none"/>
+  
+  <text font-family="'Times New Roman', serif" font-size="11" font-weight="bold" fill="#1a2b49" text-anchor="middle">
+    <textPath href="#textCircleTop" startOffset="50%">भारतीय सूचना प्रौद्योगिकी संस्थान भोपाल</textPath>
+  </text>
+  <text font-family="'Times New Roman', serif" font-size="9.5" font-weight="bold" fill="#1a2b49" text-anchor="middle">
+    <textPath href="#textCircleBottom" startOffset="50%">INDIAN INSTITUTE OF INFORMATION TECHNOLOGY BHOPAL</textPath>
+  </text>
+  
+  <!-- Central Emblem Elements -->
+  <!-- Central background shield/circle -->
+  <circle cx="150" cy="150" r="96" fill="#fdfdfd"/>
+  
+  <!-- Tower / Pi structure representing IT & Pillar -->
+  <g id="emblemCore" transform="translate(150, 142)">
+    <!-- Book / Base -->
+    <path d="M -45,45 Q 0,38 45,45 L 42,50 Q 0,43 -42,50 Z" fill="#d4af37"/>
+    <path d="M -45,43 Q 0,34 0,34 Q 0,34 45,43 L 42,47 Q 0,38 -42,47 Z" fill="#1a2b49"/>
+    
+    <!-- Motto ribbon below book -->
+    <rect x="-42" y="52" width="84" height="15" rx="3" fill="#d4af37" opacity="0.9"/>
+    <text x="0" y="63" font-family="'Times New Roman', serif" font-size="7.5" font-weight="bold" fill="#1a2b49" text-anchor="middle">विद्याऽमृतमश्नुते</text>
+    
+    <!-- Central Pillar / Pi Legs -->
+    <!-- Left column -->
+    <rect x="-24" y="-28" width="10" height="64" fill="#1a2b49" rx="1"/>
+    <!-- Right column -->
+    <rect x="14" y="-28" width="10" height="64" fill="#1a2b49" rx="1"/>
+    <!-- Center antenna pole -->
+    <rect x="-3" y="-36" width="6" height="72" fill="#1a2b49" rx="1"/>
+    
+    <!-- Cross lintel (Pi beam) -->
+    <rect x="-36" y="-30" width="72" height="10" fill="#1a2b49" rx="2"/>
+    
+    <!-- Radio / Wifi waves radiating from antenna -->
+    <path d="M -16,-44 A 20,20 0 0,1 16,-44" fill="none" stroke="#d4af37" stroke-width="3" stroke-linecap="round"/>
+    <path d="M -26,-52 A 32,32 0 0,1 26,-52" fill="none" stroke="#d4af37" stroke-width="3" stroke-linecap="round"/>
+    <path d="M -36,-60 A 44,44 0 0,1 36,-60" fill="none" stroke="#d4af37" stroke-width="3" stroke-linecap="round"/>
+    
+    <!-- Central beacon dot -->
+    <circle cx="0" cy="-38" r="4" fill="#d4af37"/>
+  </g>
+  <!-- Decorative stars -->
+  <polygon points="35,150 37,153 41,153 38,155 39,159 35,156 31,159 32,155 29,153 33,153" fill="#d4af37"/>
+  <polygon points="265,150 267,153 271,153 268,155 269,159 265,156 261,159 262,155 259,153 263,153" fill="#d4af37"/>
+</svg>

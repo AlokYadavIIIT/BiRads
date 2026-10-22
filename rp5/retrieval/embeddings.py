@@ -12,6 +12,7 @@ class Embedder:
     def __init__(self, cfg: RP5Config):
         self.cfg = cfg
         self._model = None
+        self._cache: dict[str, np.ndarray] = {}
 
     def _load(self):
         if self._model is None:
@@ -21,17 +22,37 @@ class Embedder:
     def encode(self, texts: list[str]) -> np.ndarray:
         if not texts:
             return np.zeros((0, self.cfg.embedding_dim), dtype=np.float32)
-        try:
-            self._load()
-            arr = self._model.encode(
-                texts,
-                normalize_embeddings=True,
-                convert_to_numpy=True,
-                show_progress_bar=False,
-            ).astype(np.float32)
-            return arr
-        except Exception:
-            return DummyEmbedder(self.cfg).encode(texts)
+
+        results: list[np.ndarray | None] = [None] * len(texts)
+        uncached_indices: list[int] = []
+        uncached_texts: list[str] = []
+
+        for i, text in enumerate(texts):
+            h = hashlib.sha256(text.encode("utf-8")).hexdigest()
+            if h in self._cache:
+                results[i] = self._cache[h]
+            else:
+                uncached_indices.append(i)
+                uncached_texts.append(text)
+
+        if uncached_texts:
+            try:
+                self._load()
+                computed = self._model.encode(
+                    uncached_texts,
+                    normalize_embeddings=True,
+                    convert_to_numpy=True,
+                    show_progress_bar=False,
+                ).astype(np.float32)
+            except Exception:
+                computed = DummyEmbedder(self.cfg).encode(uncached_texts)
+
+            for idx, text, vec in zip(uncached_indices, uncached_texts, computed):
+                h = hashlib.sha256(text.encode("utf-8")).hexdigest()
+                self._cache[h] = vec
+                results[idx] = vec
+
+        return np.vstack([r for r in results if r is not None]).astype(np.float32)
 
 
 class DummyEmbedder:

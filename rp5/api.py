@@ -76,8 +76,11 @@ def health() -> dict[str, Any]:
 
 @app.post("/api/analyze")
 def analyze(card: FindingCardIn) -> dict[str, Any]:
-    result = get_pipeline().answer(card.to_domain(), temperature=0.0)
-    return result.to_dict()
+    try:
+        result = get_pipeline().answer(card.to_domain(), temperature=0.0)
+        return result.to_dict()
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Analysis pipeline error: {str(exc)}") from exc
 
 
 @app.get("/")

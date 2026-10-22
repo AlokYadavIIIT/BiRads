@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" width="800" height="360">
+  <rect width="800" height="360" fill="#f8fafc" rx="8" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="400" y="28" font-family="'Times New Roman', serif" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">
+    Adversarial Hallucination Audit Results across 9 Probes
+  </text>
+
+  <!-- 3 Family Cards -->
+  <g transform="translate(40, 55)">
+    <!-- Family 1: Out-of-Corpus -->
+    <rect width="220" height="220" rx="8" fill="#ffffff" stroke="#ef4444" stroke-width="2"/>
+    <rect width="220" height="38" rx="8" fill="#ef4444"/>
+    <text x="110" y="24" font-family="'Times New Roman', serif" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">Family 1: Out-of-Corpus (N=3)</text>
+    
+    <text x="20" y="65" font-family="'Times New Roman', serif" font-size="11" fill="#334155">• Probes: OOC-0, 1, 2</text>
+    <text x="20" y="85" font-family="'Times New Roman', serif" font-size="10.5" fill="#475569">Injected ungrounded entity:</text>
+    <text x="20" y="100" font-family="'Times New Roman', serif" font-size="10" fill="#dc2626">"hyperlucent galactocele"</text>
+    
+    <rect x="20" y="125" width="180" height="50" rx="6" fill="#fee2e2"/>
+    <text x="110" y="148" font-family="'Times New Roman', serif" font-size="13" font-weight="bold" fill="#991b1b" text-anchor="middle">100% Abstention</text>
+    <text x="110" y="165" font-family="'Times New Roman', serif" font-size="10" fill="#7f1d1d" text-anchor="middle">Reason: unsupported_descriptor</text>
+
+    <text x="110" y="200" font-family="'Times New Roman', serif" font-size="11" font-weight="bold" fill="#15803d" text-anchor="middle">&#10004; 0 Hallucinations Emitted</text>
+  </g>
+
+  <g transform="translate(290, 55)">
+    <!-- Family 2: Conflicting Categories -->
+    <rect width="220" height="220" rx="8" fill="#ffffff" stroke="#f59e0b" stroke-width="2"/>
+    <rect width="220" height="38" rx="8" fill="#f59e0b"/>
+    <text x="110" y="24" font-family="'Times New Roman', serif" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">Family 2: Conflicting (N=3)</text>
+    
+    <text x="20" y="65" font-family="'Times New Roman', serif" font-size="11" fill="#334155">• Probes: CONF-0, 1, 2</text>
+    <text x="20" y="85" font-family="'Times New Roman', serif" font-size="10.5" fill="#475569">Injected contradiction:</text>
+    <text x="20" y="100" font-family="'Times New Roman', serif" font-size="10" fill="#d97706">BI-RADS 1 with Biopsy</text>
+    
+    <rect x="20" y="125" width="180" height="50" rx="6" fill="#fef3c7"/>
+    <text x="110" y="148" font-family="'Times New Roman', serif" font-size="13" font-weight="bold" fill="#92400e" text-anchor="middle">100% Abstention</text>
+    <text x="110" y="165" font-family="'Times New Roman', serif" font-size="10" fill="#78350f" text-anchor="middle">Reason: category_conflict</text>
+
+    <text x="110" y="200" font-family="'Times New Roman', serif" font-size="11" font-weight="bold" fill="#15803d" text-anchor="middle">&#10004; 0 Hallucinations Emitted</text>
+  </g>
+
+  <g transform="translate(540, 55)">
+    <!-- Family 3: Distractors -->
+    <rect width="220" height="220" rx="8" fill="#ffffff" stroke="#3b82f6" stroke-width="2"/>
+    <rect width="220" height="38" rx="8" fill="#3b82f6"/>
+    <text x="110" y="24" font-family="'Times New Roman', serif" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">Family 3: Distractors (N=3)</text>
+    
+    <text x="20" y="65" font-family="'Times New Roman', serif" font-size="11" fill="#334155">• Probes: DIST-0, 1, 2</text>
+    <text x="20" y="85" font-family="'Times New Roman', serif" font-size="10.5" fill="#475569">Irrelevant evidence chunks</text>
+    <text x="20" y="100" font-family="'Times New Roman', serif" font-size="10" fill="#2563eb">injected ahead of target</text>
+    
+    <rect x="20" y="125" width="180" height="50" rx="6" fill="#eff6ff"/>
+    <text x="110" y="145" font-family="'Times New Roman', serif" font-size="11" font-weight="bold" fill="#1e40af" text-anchor="middle">DIST-0: 100% Support</text>
+    <text x="110" y="160" font-family="'Times New Roman', serif" font-size="11" font-weight="bold" fill="#b45309" text-anchor="middle">DIST-1: 1 Flagged Claim</text>
+    <text x="110" y="174" font-family="'Times New Roman', serif" font-size="10" fill="#dc2626" text-anchor="middle">DIST-2: Abstain (low_conf)</text>
+
+    <text x="110" y="200" font-family="'Times New Roman', serif" font-size="11" font-weight="bold" fill="#15803d" text-anchor="middle">&#10004; Automatic Attribution Catch</text>
+  </g>
+
+  <!-- Summary banner -->
+  <rect x="40" y="295" width="720" height="42" rx="6" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="400" y="321" font-family="'Times New Roman', serif" font-size="12" font-weight="bold" fill="#0f172a" text-anchor="middle">
+    Overall Adversarial Abstention Rate: <tspan fill="#b45309">77.78% (7/9 cases)</tspan> | Residual Hallucination Rate: <tspan fill="#059669">16.67% (1 claim in 6)</tspan>
+  </text>
+</svg>

@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 380" width="820" height="380">
+  <defs>
+    <marker id="attrArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect width="820" height="380" fill="#f8fafc" rx="8" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="410" y="28" font-family="'Times New Roman', serif" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">
+    Multi-Tier Attribution Alignment &amp; Contradiction Resolution Flow
+  </text>
+
+  <!-- Input Draft Sentence -->
+  <g transform="translate(30, 60)">
+    <rect width="180" height="70" rx="6" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.5"/>
+    <text x="90" y="25" font-family="'Times New Roman', serif" font-size="12" font-weight="bold" fill="#312e81" text-anchor="middle">Draft Claim Sentence</text>
+    <text x="90" y="45" font-family="'Times New Roman', serif" font-size="10" fill="#3730a3" text-anchor="middle">Decomposed into atomic</text>
+    <text x="90" y="58" font-family="'Times New Roman', serif" font-size="10" fill="#3730a3" text-anchor="middle">clinical proposition (c_i)</text>
+  </g>
+
+  <line x1="210" y1="95" x2="260" y2="95" stroke="#334155" stroke-width="2" marker-end="url(#attrArrow)"/>
+
+  <!-- Step 1: Lexical + Semantic Overlap -->
+  <g transform="translate(265, 50)">
+    <rect width="260" height="90" rx="6" fill="#f8fafc" stroke="#0284c7" stroke-width="2"/>
+    <text x="130" y="24" font-family="'Times New Roman', serif" font-size="12.5" font-weight="bold" fill="#0369a1" text-anchor="middle">1. Dual-Evidence Scorer</text>
+    <text x="130" y="44" font-family="'Times New Roman', serif" font-size="10.5" fill="#0f172a" text-anchor="middle">• Jaccard Lexical Overlap &#8805; 0.35</text>
+    <text x="130" y="60" font-family="'Times New Roman', serif" font-size="10.5" fill="#0f172a" text-anchor="middle">• MiniLM-L6 Embedding Cosine &#8805; 0.45</text>
+    <text x="130" y="76" font-family="'Times New Roman', serif" font-size="9.5" fill="#64748b" text-anchor="middle">Ranked against top-k retrieved chunks</text>
+  </g>
+
+  <!-- Decision diamond: Above Threshold? -->
+  <line x1="525" y1="95" x2="575" y2="95" stroke="#334155" stroke-width="2" marker-end="url(#attrArrow)"/>
+
+  <g transform="translate(580, 55)">
+    <polygon points="50,0 100,40 50,80 0,40" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+    <text x="50" y="38" font-family="'Times New Roman', serif" font-size="10" font-weight="bold" fill="#92400e" text-anchor="middle">Sim &#8805; 0.45</text>
+    <text x="50" y="50" font-family="'Times New Roman', serif" font-size="9.5" fill="#92400e" text-anchor="middle">&amp; Lex &#8805; 0.35?</text>
+  </g>
+
+  <!-- Branch NO -->
+  <line x1="680" y1="95" x2="720" y2="95" stroke="#dc2626" stroke-width="2" marker-end="url(#attrArrow)"/>
+  <text x="698" y="88" font-family="'Times New Roman', serif" font-size="9.5" font-weight="bold" fill="#dc2626">NO</text>
+  <g transform="translate(725, 70)">
+    <rect width="80" height="50" rx="4" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+    <text x="40" y="24" font-family="'Times New Roman', serif" font-size="10.5" font-weight="bold" fill="#991b1b" text-anchor="middle">FLAG</text>
+    <text x="40" y="38" font-family="'Times New Roman', serif" font-size="9" fill="#991b1b" text-anchor="middle">Unsupported</text>
+  </g>
+
+  <!-- Branch YES down to Clinical Contradiction Policy -->
+  <line x1="630" y1="135" x2="630" y2="185" stroke="#16a34a" stroke-width="2" marker-end="url(#attrArrow)"/>
+  <text x="642" y="160" font-family="'Times New Roman', serif" font-size="10" font-weight="bold" fill="#16a34a">YES</text>
+
+  <!-- Step 2: Clinical Domain Contradiction Guard -->
+  <g transform="translate(180, 190)">
+    <rect width="470" height="115" rx="8" fill="#fdf4ff" stroke="#9333ea" stroke-width="2"/>
+    <text x="235" y="25" font-family="'Times New Roman', serif" font-size="13" font-weight="bold" fill="#6b21a8" text-anchor="middle">2. Explicit Clinical Conflict &amp; Assertion Filters</text>
+    
+    <g transform="translate(15, 38)">
+      <rect width="135" height="65" rx="4" fill="#ffffff" stroke="#c084fc"/>
+      <text x="67" y="18" font-family="'Times New Roman', serif" font-size="10" font-weight="bold" fill="#7e22ce" text-anchor="middle">Negation Check</text>
+      <text x="67" y="34" font-family="'Times New Roman', serif" font-size="9" fill="#475569" text-anchor="middle">"No mass" vs</text>
+      <text x="67" y="46" font-family="'Times New Roman', serif" font-size="9" fill="#475569" text-anchor="middle">"mass present"</text>
+      <text x="67" y="58" font-family="'Times New Roman', serif" font-size="8.5" fill="#dc2626" text-anchor="middle">&#8680; Contradiction</text>
+    </g>
+
+    <g transform="translate(165, 38)">
+      <rect width="135" height="65" rx="4" fill="#ffffff" stroke="#c084fc"/>
+      <text x="67" y="18" font-family="'Times New Roman', serif" font-size="10" font-weight="bold" fill="#7e22ce" text-anchor="middle">Laterality Check</text>
+      <text x="67" y="34" font-family="'Times New Roman', serif" font-size="9" fill="#475569" text-anchor="middle">"left breast" vs</text>
+      <text x="67" y="46" font-family="'Times New Roman', serif" font-size="9" fill="#475569" text-anchor="middle">"right breast"</text>
+      <text x="67" y="58" font-family="'Times New Roman', serif" font-size="8.5" fill="#dc2626" text-anchor="middle">&#8680; Mismatch</text>
+    </g>
+
+    <g transform="translate(315, 38)">
+      <rect width="140" height="65" rx="4" fill="#ffffff" stroke="#c084fc"/>
+      <text x="70" y="18" font-family="'Times New Roman', serif" font-size="10" font-weight="bold" fill="#7e22ce" text-anchor="middle">Measurement Check</text>
+      <text x="70" y="34" font-family="'Times New Roman', serif" font-size="9" fill="#475569" text-anchor="middle">"12.0 mm" vs "25 mm"</text>
+      <text x="70" y="46" font-family="'Times New Roman', serif" font-size="9" fill="#475569" text-anchor="middle">Unit norm &amp; range test</text>
+      <text x="70" y="58" font-family="'Times New Roman', serif" font-size="8.5" fill="#dc2626" text-anchor="middle">&#8680; Size Mismatch</text>
+    </g>
+  </g>
+
+  <!-- Output outcomes -->
+  <line x1="415" y1="305" x2="415" y2="335" stroke="#16a34a" stroke-width="2" marker-end="url(#attrArrow)"/>
+  <rect x="250" y="338" width="330" height="30" rx="4" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="415" y="357" font-family="'Times New Roman', serif" font-size="11" font-weight="bold" fill="#14532d" text-anchor="middle">
+    Verified Citation Support Attached (Coverage Metric: 100%)
+  </text>
+</svg>

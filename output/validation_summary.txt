@@ -1,0 +1,37 @@
+Page 01: chars= 719, words=136, images=0, preview: RP5: BI-RADS-GROUNDED RETRIEVAL-AUGMENTED | GENERATION 
+Page 02: chars=1177, words=214, images=0, preview: 2 | INDIAN INSTITUTE OF INFORMATION TECHNOLOGY
+Page 03: chars=1389, words=252, images=0, preview: 3 | INDIAN INSTITUTE OF INFORMATION TECHNOLOGY
+Page 04: chars=2431, words=334, images=0, preview: 4 | ACKNOWLEDGEMENT
+Page 05: chars=3184, words=367, images=0, preview: 5 | AREA OF WORK
+Page 06: chars=1840, words=285, images=0, preview: 6 | TABLE OF CONTENT
+Page 07: chars= 698, words=102, images=0, preview: 7 | LIST OF FIGURES
+Page 08: chars= 654, words= 91, images=0, preview: 8 | LIST OF TABLES
+Page 09: chars=3140, words=384, images=0, preview: 9 | 1. ABSTRACT
+Page 10: chars=3095, words=393, images=0, preview: 10 | 2. INTRODUCTION
+Page 11: chars=3248, words=397, images=0, preview: 11 | 2.3 The RP5 Paradigm and Proposed Contributions
+Page 12: chars=2317, words=306, images=0, preview: 12 | 3. LITERATURE REVIEW
+Page 13: chars=3186, words=417, images=0, preview: 13 | 3.2 Retrieval-Augmented Generation (RAG) in Health
+Page 14: chars=2347, words=317, images=0, preview: 14 | 3.4 Patient-Centered Communication and Health Lite
+Page 15: chars=1900, words=232, images=0, preview: 15 | 4. PROBLEM DEFINITION AND OBJECTIVES
+Page 16: chars=1511, words=175, images=0, preview: 16 | 4.2 Research and Engineering Objectives
+Page 17: chars=2240, words=297, images=7, preview: 17 | 5. PROPOSED METHODOLOGY AND WORK DESCRIPTION
+Page 18: chars=1369, words=178, images=4, preview: 18 | 5.2 Four-Stratum Knowledge Architecture
+Page 19: chars=3029, words=384, images=0, preview: 19 | 5.3 Section-Aware Chunking and Dense Vector Indexi
+Page 20: chars=2386, words=331, images=0, preview: 20 | 5.5 Attribution Engine & Clinical Conflict Policy
+Page 21: chars=2216, words=272, images=0, preview: 21 | 5.6 Guard Agent & Safe Abstention Mechanism
+Page 22: chars=2119, words=214, images=0, preview: 22 | 6. PROPOSED ALGORITHMS
+Page 23: chars=2214, words=252, images=0, preview: 23 | 6.2 Multi-Factor Claim Attribution Algorithm
+Page 24: chars=2334, words=344, images=0, preview: 24 | 7. PROPOSED FLOWCHART / BLOCK DIAGRAM / DFD
+Page 25: chars=1568, words=237, images=0, preview: 25 | 7.2 Data Flow Diagrams (DFD Level 0 and Level 1)
+Page 26: chars=1361, words=166, images=0, preview: 26 | 8. IMPLEMENTATION (TOOLS AND TECHNOLOGY USED)
+Page 27: chars=1241, words=135, images=0, preview: 27 | 8.2 Core Module Implementations
+Page 28: chars= 912, words=120, images=1, preview: 28 | 8.3 RESTful API & Interactive Web UI
+Page 29: chars=1586, words=213, images=0, preview: 29 | 9. RESULT DISCUSSION AND ANALYSIS
+Page 30: chars=1821, words=245, images=0, preview: 30 | 9.2 Multi-Run Consistency & Sensitivity Analysis
+Page 31: chars=1178, words=163, images=0, preview: 31 | Adversarial Hallucination Audit Results across 9 P
+Page 32: chars=1299, words=165, images=0, preview: 32 | 9.4 Stage-by-Stage Latency Analysis
+Page 33: chars=2733, words=325, images=0, preview: 33 | 10. CONCLUSION AND FUTURE SCOPE
+Page 34: chars=2182, words=324, images=0, preview: 34 | 11. REFERENCES (IEEE FORMAT)
+Page 35: chars=2655, words=397, images=0, preview: 35 | [15] S. Min et al., "FActScore: Fine-grained atomi
+Page 36: chars=1082, words=139, images=0, preview: 36 | 12. LIST OF PUBLICATION
+Page 37: chars=1095, words=141, images=0, preview: 37 | 13. PLAG REPORT (THROUGH TURNITIN)

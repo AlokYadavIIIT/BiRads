@@ -26,8 +26,9 @@ class FindingCard:
 
     def __post_init__(self):
         if self.lesions:
+            from rp5.normalization import normalize_lesion
             self.lesions = [
-                Lesion(**x) if isinstance(x, dict) else x
+                normalize_lesion(x)[0]
                 for x in self.lesions
             ]
 
@@ -89,6 +90,11 @@ class Attribution:
     score: float
     method: str
     supported: bool
+    passage_text: str = ""
+    lexical_score: float = 0.0
+    semantic_score: float = 0.0
+    status: str = "uncertain"  # supported | unsupported | uncertain
+    decision_reason: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -99,6 +105,8 @@ class Abstention:
     case_id: str
     reason: str  # category_conflict | unsupported_descriptor | low_coverage | contradiction | low_confidence | parse_failure
     missing_information: list[str] = field(default_factory=list)
+    validation_warnings: list[str] = field(default_factory=list)
+    abstained: bool = True
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -106,6 +114,7 @@ class Abstention:
             "abstained": True,
             "reason": self.reason,
             "missing_information": self.missing_information,
+            "validation_warnings": self.validation_warnings,
         }
 
 
@@ -115,15 +124,20 @@ class DraftResult:
     clinician_draft: dict[str, Any]
     clinician_text: str
     patient_text: str
-    patient_fk_grade: float
+    patient_fk_grade: Optional[float]
     patient_regen: bool
     attribution_map: dict[str, list[Attribution]]
     patient_attribution_map: dict[str, list[Attribution]]
-    coverage: float
-    confidence: float
+    coverage: Optional[float]
+    confidence: Optional[float]
     retrieval_scores: list[float]
     latency_ms: dict[str, float]
     hallucination_flag: bool = False
+    patient_generation_status: str = "success"  # success | failed
+    assessment_provenance: str = "model_proposed"  # source_explicit | model_proposed | undetermined
+    requires_clinician_review: bool = True
+    validation_warnings: list[str] = field(default_factory=list)
+    metrics_explanation: dict[str, str] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -132,10 +146,15 @@ class DraftResult:
             "clinician_draft": self.clinician_draft,
             "clinician_text": self.clinician_text,
             "patient_text": self.patient_text,
-            "patient_fk_grade": round(self.patient_fk_grade, 2),
+            "patient_fk_grade": round(self.patient_fk_grade, 2) if self.patient_fk_grade is not None else None,
             "patient_regen": self.patient_regen,
-            "coverage": round(self.coverage, 4),
-            "confidence": round(self.confidence, 4),
+            "patient_generation_status": self.patient_generation_status,
+            "assessment_provenance": self.assessment_provenance,
+            "requires_clinician_review": self.requires_clinician_review,
+            "validation_warnings": self.validation_warnings,
+            "metrics_explanation": self.metrics_explanation,
+            "coverage": round(self.coverage, 4) if self.coverage is not None else None,
+            "confidence": round(self.confidence, 4) if self.confidence is not None else None,
             "retrieval_scores": [round(x, 4) for x in self.retrieval_scores],
             "latency_ms": {k: round(v, 2) for k, v in self.latency_ms.items()},
             "hallucination_flag": self.hallucination_flag,

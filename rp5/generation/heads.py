@@ -103,6 +103,15 @@ class ClinicianHead:
         return float(math.exp(mean_lp))
 
 
+import logging
+
+logger = logging.getLogger("rp5.generation.heads")
+
+FALLBACK_ERROR_MESSAGE = (
+    "Explanation unavailable: We could not generate a patient explanation from the available report draft."
+)
+
+
 class PatientHead:
     def __init__(self, backend: LLMBackend, cfg: RP5Config):
         self.backend = backend
@@ -114,28 +123,85 @@ class PatientHead:
         passages: list[Passage],
         temperature: float,
         seed: int,
-    ) -> tuple[str, float, bool]:
-        messages = make_patient_messages(draft, passages)
-        text, _ = self.backend.generate(
-            messages,
-            temperature=temperature,
-            max_tokens=self.cfg.max_tokens_pat,
-            seed=seed,
-        )
-        grade = flesch_kincaid(text)
-        regenerated = False
-        for retry in range(self.cfg.readability_max_regens):
-            if grade <= self.cfg.fk_grade_target:
-                break
-            regenerated = True
-            messages[-1]["content"] += (
-                f"\nRewrite more simply. Target Flesch-Kincaid <= {self.cfg.fk_grade_target:.0f}."
+    ) -> tuple[str, Optional[float], bool]:
+        # Stage 1: Input validation
+        if not draft or not isinstance(draft, dict) or "final_assessment" not in draft:
+            logger.error(
+                "Patient explanation generation failed: missing or malformed clinician draft",
+                extra={"stage": "input_validation", "error_category": "missing_or_malformed_draft"},
             )
+            return FALLBACK_ERROR_MESSAGE, None, False
+
+        messages = make_patient_messages(draft, passages)
+
+        # Stage 2: Initial generation with safe exception handling
+        try:
             text, _ = self.backend.generate(
                 messages,
                 temperature=temperature,
                 max_tokens=self.cfg.max_tokens_pat,
-                seed=seed + 10 + retry,
+                seed=seed,
             )
-            grade = flesch_kincaid(text)
+        except Exception as exc:
+            logger.error(
+                "Patient explanation LLM generation failed: %s",
+                type(exc).__name__,
+                extra={"stage": "llm_generation", "exception_type": type(exc).__name__},
+            )
+            return FALLBACK_ERROR_MESSAGE, None, False
+
+        # Stage 3: Schema validation on generated text
+        if not self._is_valid_patient_text(text):
+            logger.error(
+                "Patient explanation output validation failed: empty or malformed output",
+                extra={"stage": "output_validation", "error_category": "malformed_or_empty_output"},
+            )
+            return FALLBACK_ERROR_MESSAGE, None, False
+
+        # Stage 4: Readability calculation on valid explanation
+        grade = flesch_kincaid(text)
+        regenerated = False
+
+        for retry in range(self.cfg.readability_max_regens):
+            if grade <= self.cfg.fk_grade_target:
+                break
+            regenerated = True
+            retry_messages = [m.copy() for m in messages]
+            retry_messages[-1]["content"] += (
+                f"\nRewrite more simply. Target Flesch-Kincaid <= {self.cfg.fk_grade_target:.0f}."
+            )
+            try:
+                regen_text, _ = self.backend.generate(
+                    retry_messages,
+                    temperature=temperature,
+                    max_tokens=self.cfg.max_tokens_pat,
+                    seed=seed + 10 + retry,
+                )
+                if self._is_valid_patient_text(regen_text):
+                    text = regen_text
+                    grade = flesch_kincaid(text)
+            except Exception as exc:
+                logger.warning(
+                    "Patient explanation readability regeneration failed: %s",
+                    type(exc).__name__,
+                    extra={"stage": "readability_regeneration", "exception_type": type(exc).__name__},
+                )
+                break
+
         return text, grade, regenerated
+
+    @staticmethod
+    def _is_valid_patient_text(text: Any) -> bool:
+        if not text or not isinstance(text, str):
+            return False
+        cleaned = text.strip()
+        if len(cleaned) < 15:
+            return False
+        # Reject raw JSON, schema outputs, or known generic fallback messages
+        if cleaned.startswith("{") and cleaned.endswith("}"):
+            return False
+        if cleaned == "Your report could not be explained from the available draft.":
+            return False
+        if cleaned == FALLBACK_ERROR_MESSAGE:
+            return False
+        return True

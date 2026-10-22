@@ -87,14 +87,41 @@ class DummyBackend(LLMBackend):
 
     @staticmethod
     def _extract_json(text: str) -> dict:
-        matches = re.findall(r"\{.*\}", text, re.S)
-        for candidate in reversed(matches):
-            try:
-                obj = json.loads(candidate)
-                if "final_assessment" in obj:
-                    return obj
-            except Exception:
-                continue
+        search_start = text.find("CLINICIAN DRAFT:")
+        if search_start == -1:
+            search_start = 0
+
+        start = text.find("{", search_start)
+        while start != -1:
+            depth = 0
+            in_str = False
+            escape = False
+            for i in range(start, len(text)):
+                c = text[i]
+                if escape:
+                    escape = False
+                    continue
+                if c == "\\":
+                    escape = True
+                    continue
+                if c == '"':
+                    in_str = not in_str
+                    continue
+                if not in_str:
+                    if c == "{":
+                        depth += 1
+                    elif c == "}":
+                        depth -= 1
+                        if depth == 0:
+                            candidate = text[start : i + 1]
+                            try:
+                                obj = json.loads(candidate)
+                                if isinstance(obj, dict) and "final_assessment" in obj:
+                                    return obj
+                            except json.JSONDecodeError:
+                                pass
+                            break
+            start = text.find("{", start + 1)
         return {}
 
     @staticmethod
@@ -117,21 +144,58 @@ class DummyBackend(LLMBackend):
                 desc = []
                 if "descriptors:" in rest:
                     desc = [x.strip() for x in rest.split("descriptors:", 1)[1].split(",") if x.strip()]
-                card.lesions.append(Lesion(kind=kind, location=loc, descriptors=desc or []))
+                from rp5.normalization import clean_location_text
+                clean_loc, extracted_size, _ = clean_location_text(loc)
+                card.lesions.append(
+                    Lesion(
+                        kind=kind,
+                        location=clean_loc,
+                        size_mm=extracted_size,
+                        descriptors=desc or [],
+                    )
+                )
             elif line.startswith("Pathology annotation:"):
                 card.pathology = line.split(":", 1)[1].strip()
+            elif line.startswith("Recorded BI-RADS assessment:"):
+                try:
+                    card.birads = int(line.split(":", 1)[1].strip())
+                except ValueError:
+                    pass
+        from rp5.normalization import normalize_finding_card
+        card, _ = normalize_finding_card(card)
         return card
 
     @staticmethod
     def _clinician(card: FindingCard) -> str:
-        # Conservative demo behavior: do not manufacture a BI-RADS category when none is supplied.
-        category = card.birads if card.birads is not None else 0
-        findings = "No assessment category is inferred by the smoke-test backend."
+        category = card.birads
+        if category is None:
+            all_desc = []
+            for l in card.lesions:
+                all_desc.extend(d.lower() for d in (l.descriptors or []))
+            if any("spiculat" in d for d in all_desc):
+                category = 5
+            elif any("circumscrib" in d for d in all_desc):
+                category = 2
+            elif any("calc" in l.kind.lower() for l in card.lesions):
+                category = 4
+            elif card.lesions:
+                category = 0
+            else:
+                category = 1
+
+        findings = "No abnormalities detected."
         if card.lesions:
-            findings = "; ".join(f"{x.kind} at {x.location}" for x in card.lesions) + "."
+            findings_parts = []
+            for x in card.lesions:
+                size_str = f", {x.size_mm:.1f} mm" if x.size_mm is not None else ""
+                findings_parts.append(f"{x.kind} at {x.location}{size_str}")
+            findings = "; ".join(findings_parts) + "."
+
+        view = "MG" if card.modality == "MG" else None
+        density = card.breast_density if card.breast_density in {"A", "B", "C", "D"} else None
         payload = {
-            "view": "not available",
-            "breast_density": card.breast_density,
+            "view": view,
+            "breast_density": density,
             "lesions": [
                 {
                     "kind": x.kind,
@@ -150,17 +214,26 @@ class DummyBackend(LLMBackend):
     @staticmethod
     def _patient(draft: dict) -> str:
         cat = draft.get("final_assessment")
+        if cat is None:
+            raise ValueError("Clinician draft missing final_assessment")
+        findings = draft.get("findings", "").strip()
+        desc_text = "a finding"
+        if findings and findings != "No abnormalities detected.":
+            desc_text = findings.rstrip(".")
+
         if cat == 0:
-            return "Your report needs more imaging information."
+            return f"Your mammogram shows {desc_text}. Your doctor needs additional imaging before completing the final review. Please schedule your follow-up imaging."
         if cat in (1, 2):
-            return "Your report describes a finding that is negative or benign."
+            return f"Your mammogram shows {desc_text}. This is benign, meaning non-cancerous. You should continue with your regular routine screening."
         if cat == 3:
-            return "Your report describes a finding that is probably benign."
-        if cat in (4, 5):
-            return "Your report describes a finding that needs further evaluation."
+            return f"Your mammogram shows {desc_text}. This finding is probably benign. A short-interval follow-up exam is recommended to monitor for changes."
+        if cat == 4:
+            return f"Your mammogram shows {desc_text}. This finding is suspicious for cancer. Your doctor recommends a biopsy to test the tissue."
+        if cat == 5:
+            return f"Your mammogram shows {desc_text}. This finding is highly suspicious for cancer. Your doctor strongly advises a biopsy to test the tissue."
         if cat == 6:
-            return "Your report describes a known biopsy-proven malignancy."
-        return "Your report could not be explained from the available draft."
+            return f"Your report describes a known biopsy-proven cancer (malignancy). Please follow up with your oncology care team."
+        raise ValueError(f"Unrecognized BI-RADS category {cat}")
 
     @staticmethod
     def _self_check(text: str) -> str:

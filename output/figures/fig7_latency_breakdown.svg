@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 340" width="780" height="340">
+  <rect width="780" height="340" fill="#f8fafc" rx="8" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="390" y="28" font-family="'Times New Roman', serif" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">
+    Component Latency Profiles: Cold-Start vs Warm Execution
+  </text>
+
+  <!-- Horizontal bar chart -->
+  <g transform="translate(180, 50)">
+    <!-- Stage 1: Retrieval -->
+    <text x="-15" y="32" font-family="'Times New Roman', serif" font-size="11.5" font-weight="bold" fill="#0f172a" text-anchor="end">Retrieval (FAISS)</text>
+    <rect x="0" y="15" width="24" height="24" fill="#0284c7" rx="3"/>
+    <text x="35" y="32" font-family="'Times New Roman', serif" font-size="10.5" fill="#0369a1">24.5 ms (0.3%)</text>
+
+    <!-- Stage 2: Clinician Head -->
+    <text x="-15" y="82" font-family="'Times New Roman', serif" font-size="11.5" font-weight="bold" fill="#0f172a" text-anchor="end">Clinician Head</text>
+    <rect x="0" y="65" width="6" height="24" fill="#6366f1" rx="3"/>
+    <text x="15" y="82" font-family="'Times New Roman', serif" font-size="10.5" fill="#4338ca">0.26 ms (&lt;0.01%)</text>
+
+    <!-- Stage 3: Patient Head -->
+    <text x="-15" y="132" font-family="'Times New Roman', serif" font-size="11.5" font-weight="bold" fill="#0f172a" text-anchor="end">Patient Head (Model)</text>
+    <rect x="0" y="115" width="120" height="24" fill="#a855f7" rx="3"/>
+    <text x="130" y="132" font-family="'Times New Roman', serif" font-size="10.5" fill="#7e22ce">1634.1 ms (21.8%)</text>
+
+    <!-- Stage 4: Attribution -->
+    <text x="-15" y="182" font-family="'Times New Roman', serif" font-size="11.5" font-weight="bold" fill="#0f172a" text-anchor="end">Attribution &amp; MiniLM</text>
+    <rect x="0" y="165" width="420" height="24" fill="#f59e0b" rx="3"/>
+    <text x="430" y="182" font-family="'Times New Roman', serif" font-size="10.5" fill="#b45309">5823.6 ms (77.8% cold-start)</text>
+
+    <!-- Stage 5: Guard Agent -->
+    <text x="-15" y="232" font-family="'Times New Roman', serif" font-size="11.5" font-weight="bold" fill="#0f172a" text-anchor="end">Guard Validation Gate</text>
+    <rect x="0" y="215" width="5" height="24" fill="#10b981" rx="3"/>
+    <text x="15" y="232" font-family="'Times New Roman', serif" font-size="10.5" fill="#047857">0.12 ms (&lt;0.01%)</text>
+  </g>
+
+  <!-- Note on warm vs cold latency -->
+  <rect x="60" y="290" width="660" height="35" rx="5" fill="#eff6ff" stroke="#bfdbfe"/>
+  <text x="390" y="312" font-family="'Times New Roman', serif" font-size="11" fill="#1e40af" text-anchor="middle">
+    Cold-Start Total: <tspan font-weight="bold">7,482 ms</tspan> | Warm Steady-State Inference Amortized Mean: <tspan font-weight="bold">310.2 ms</tspan> (min: 3.7 ms)
+  </text>
+</svg>
